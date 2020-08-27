@@ -3,13 +3,11 @@ package main
 import (
 	"context"
 	"errors"
+	"examples/opentracing/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/opentracing/opentracing-go"
 	"github.com/opentracing/opentracing-go/ext"
-	"github.com/uber/jaeger-client-go"
-	"github.com/uber/jaeger-client-go/config"
-	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -26,23 +24,6 @@ const (
 )
 
 var httpHost = fmt.Sprintf("http://%s:%d", serverHost, serverPort)
-
-func initTracer(serviceName, localAgentHost string, localAgentPort int) io.Closer {
-	cfg := config.Configuration{
-		ServiceName: serviceName,
-		Sampler:     &config.SamplerConfig{Type: jaeger.SamplerTypeConst, Param: 1},
-		Reporter:    &config.ReporterConfig{LocalAgentHostPort: fmt.Sprintf("%s:%d", localAgentHost, localAgentPort)},
-	}
-
-	tracer, closer, err := cfg.NewTracer()
-	if err != nil {
-		err = fmt.Errorf("initTracer: newTracer: %w", err)
-		log.Fatal(err)
-	}
-
-	opentracing.SetGlobalTracer(tracer)
-	return closer
-}
 
 // traceMiddleware retrieve spanContext from client request, if there is, start a span childOf it,
 // otherwise, start a new root span.
@@ -161,7 +142,7 @@ func quzHandler(c *gin.Context) {
 }
 
 func main() {
-	closer := initTracer(tracerServiceName, tracerAgentHost, tracerAgentPort)
+	closer := utils.InitTracer(tracerServiceName, tracerAgentHost, tracerAgentPort)
 	defer closer.Close()
 
 	r := gin.Default()

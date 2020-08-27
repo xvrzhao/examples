@@ -1,0 +1,11 @@
+syntax = "proto3";
+package proto;
+option go_package = "examples/opentracing/rpc/server/proto";
+
+import "proto/messages.proto";
+import "google/protobuf/wrappers.proto";
+
+service Math {
+  rpc Sum(Numbers) returns (google.protobuf.Int32Value);
+  rpc Product(Numbers) returns (google.protobuf.Int32Value);
+}

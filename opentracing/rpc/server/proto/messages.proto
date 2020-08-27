@@ -1,0 +1,7 @@
+syntax = "proto3";
+package proto;
+option go_package = "examples/opentracing/rpc/server/proto";
+
+message Numbers {
+  repeated int32 numbers = 1;
+}
