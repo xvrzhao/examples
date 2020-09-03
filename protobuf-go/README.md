@@ -10,3 +10,10 @@
     - 编译 message：`protoc --proto_path=. --go_out=paths=source_relative:. **/*.proto` ( `protoc` 使用了 `protoc-gen-go` 进行编译 )
     - 编译 service：`protoc --proto_path=. --go-grpc_out=paths=source_relative:. **/*.proto` ( `protoc` 使用了 `protoc-gen-go-grpc` 进行编译 )
 3. 或者通过一个命令来完成：`protoc --proto_path=. --go_out=paths=source_relative:. --go-grpc_out=paths=source_relative:. **/*.proto` (新版本支持多包同时编译了)
+
+参考：
+
+- [新版本 Go Protobuf 官方博客声明](https://blog.golang.org/protobuf-apiv2)
+- [protoc 安装](https://github.com/protocolbuffers/protobuf)
+- [新版 protoc-gen-go 安装](https://github.com/protocolbuffers/protobuf-go/tree/master/cmd/protoc-gen-go)
+- [protoc-gen-go-grpc 安装](https://github.com/grpc/grpc-go/tree/master/cmd/protoc-gen-go-grpc)
