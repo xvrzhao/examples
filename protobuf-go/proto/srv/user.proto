@@ -1,0 +1,11 @@
+syntax = "proto3";
+package srv;
+option go_package = "examples/protobuf-go/proto/srv";
+
+import "google/protobuf/wrappers.proto";
+import "proto/msg/user.proto";
+
+service User {
+  rpc GetUserInfo(google.protobuf.Int64Value) returns (msg.UserInfo);
+  rpc Greet(google.protobuf.StringValue) returns (google.protobuf.StringValue);
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+package msg;
+option go_package = "examples/protobuf-go/proto/msg";
+
+message UserInfo {
+  enum Gender {
+    MALE = 0;
+    FEMALE = 1;
+  }
+
+  int64 user_id = 1;
+  string username = 2;
+  Gender gender = 3;
+}
+
