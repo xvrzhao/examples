@@ -2,7 +2,7 @@
 
 本示例演示了新版本 Go Protobuf 的使用，以及在新版本下使用 `proto` 的 `import` 功能，和编译 gRPC 服务。
 
-自 Go Protobuf 升级到 `second major revision` 之后（仓库改为了[https://github.com/protocolbuffers/protobuf-go](https://github.com/protocolbuffers/protobuf-go)，module 改为了 `google.golang.org/protobuf`），编译 gRPC 的 proto 文件需要一下几个步骤：
+自 Go Protobuf 升级到 `second major revision` 之后 (仓库迁移到了 [https://github.com/protocolbuffers/protobuf-go](https://github.com/protocolbuffers/protobuf-go) ，Go Module 地址为 [google.golang.org/protobuf](https://pkg.go.dev/mod/google.golang.org/protobuf) )，编译 gRPC 的 proto 文件需要一下几个步骤：
 
 1. 需要安装 `protoc`、`protoc-gen-go` 和 `protoc-gen-go-grpc`
 2. 升级之后，`service` 代码和 `message` 代码需要单独编译：
