@@ -1,6 +1,6 @@
 # A headless service is just a clusterIP type service but without a cluster IP.
 # Using the name of a headless service as the dns name, Kubernetes DNS will return
-# all of Pod addresses on the backend.
+# all of Pod A/AAAA records on the backend.
 apiVersion: v1
 kind: Service
 metadata:
