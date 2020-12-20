@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: foo
+  namespace: default
+  labels: # labels
+  # label0: value0
+  # label1: value1
+  # ...
+spec:
+  imagePullSecrets:
+    - name: regcred # the secret to pull private images
+  containers: # there can be multiple containers in a pod
+    - name: bar # the name of one container
+      image: registry.cn-hangzhou.aliyuncs.com/author/image:latest # image name
+      env: # specify environment variables in the container
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name # use the name of the pod outside the container as POD_NAME
+      ports: # expose services in the container
+        - containerPort: 8080

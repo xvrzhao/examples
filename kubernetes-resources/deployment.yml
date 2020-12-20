@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: foo
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: foo
+  # the definition of pod
+  template:
+    metadata:
+      labels: # the pod labels that must be matched by deployment (spec.selector.matchLabels)
+        app: foo
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: demo
+          image: registry.cn-hangzhou.aliyuncs.com/author/image:latest
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          ports:
+            - containerPort: 8080

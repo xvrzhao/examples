@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: foo
+  namespace: default
+spec:
+  type: ClusterIP
+  selector: # select pods by labels for proxy
+    app: foo
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080 # the service ports in the pods

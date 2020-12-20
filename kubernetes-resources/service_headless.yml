@@ -1,0 +1,16 @@
+# A headless service is just a clusterIP type service but without a cluster IP.
+# Using the name of a headless service as the dns name, Kubernetes DNS will return
+# all of Pod addresses on the backend.
+apiVersion: v1
+kind: Service
+metadata:
+  name: foo
+  namespace: default
+spec:
+  type: ClusterIP
+  clusterIP: None # here is the key point
+  selector: # select pods by labels for proxy
+    app: foo
+  ports:
+    - protocol: TCP
+      port: 80
