@@ -1,3 +1,3 @@
 # examples
 
-The example assets related to the Go language and back-end technology stack.
+The example assets related to Go language and back-end technology stack.
