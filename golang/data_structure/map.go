@@ -43,8 +43,8 @@ type Age struct {
 // Therefore, usually a map's v just stores a reference type like struct pointer, array pointer, slice, or map.
 func RunMapNotAddressable() {
 	m := map[string]Age{
-		"xavier": Age{value: 23},
-		"john":   Age{value: 13},
+		"xavier": {value: 23},
+		"john":   {value: 13},
 	}
 
 	//m["xavier"].value = 10 // compile error: cannot assign to struct field m["xavier"].value in map
@@ -60,7 +60,7 @@ func RunMapNotAddressable() {
 func RunMapAddressable() {
 	// when the type of value in a map is a reference type
 	m := map[string]*Age{
-		"xavier": &Age{value: 23},
+		"xavier": {value: 23},
 	}
 
 	m["xavier"].value = 10

@@ -6,5 +6,5 @@ of the accesses is a write.
 
 It is necessary to add the -race flag to the go command when testing, building, running and installing.
 For detail, see https://golang.org/doc/articles/race_detector.html.
- */
+*/
 package race_and_sync
