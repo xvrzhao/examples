@@ -23,6 +23,12 @@ type Human interface {
 // handleHuman is a generic function.
 func handleHuman[V Human](human V) {}
 
+// Tree is a generic type.
+type Tree[T string | int] struct {
+	left, right *Tree[T]
+	value       T
+}
+
 func ExampleOfTypeConstraint() {
 	// If an interface contains type constraints, it can't been used to declare
 	// an variable or a function parameter.
@@ -39,38 +45,79 @@ func ExampleOfTypeConstraint() {
 }
 
 func ExampleOfInstantiation() {
-	// Providing the type argument to the generic function, then we have a non-generic
-	// one, this process is called `instantiation`.
+	// Providing type arguments to a generic function or a generic type, then we get
+	// a non-generic one, this process is called `instantiation`.
+	//
+	// Note that any generic function or generic type must be explicitly or implicitly
+	// instantiated before it can be used.
+
+	// example 1:
+	// Explicit instantiation of generic function.
 	handleMan := handleHuman[*Man]
 	handleMan(new(Man))
 	// handleMan(new(Woman)) // bad
-}
 
-type Person[T *Man | *Woman] struct {
-	gender string
-	mate   T
-}
+	// example 2:
+	// Implicit instantiation of generic function, omit the type argument because the compiler can infer them.
+	handleHuman(new(Man))
 
-type Tree[T string | int] struct {
-	left, right *Tree[T]
-	value       T
-}
-
-func ExampleOfGenericType() {
-	// When using generic types, be aware that instantiation is required.
-
+	// example 2:
+	// Generic type must be explicitly instantiated before it can be used.
+	var intTree Tree[int]
+	_ = intTree
+	// or
 	_ = Tree[int]{
 		left:  &Tree[int]{},
 		right: nil,
 		value: 0,
 	}
-
 	// or
-
 	type stringTree = Tree[string]
 	_ = stringTree{
 		left:  nil,
 		right: nil,
 		value: "",
 	}
+}
+
+func ExampleOfTypeParameter() {
+	// Type parameter list can only be declared with outermost function or type,
+	// and can't be declared with closure or anonymous function.
+
+	// error example 1:
+	//   f := func[T int | float64] (n T) {} // syntax error: function type must have no type parameters
+
+	// error example 2:
+	//   func receiveClosure(closure func[T int | float64](a, b T)) { ... } // syntax error: function type must have no type parameters
+
+	// correct example:
+	// func receiveClosure[T int | float64](closure func(a, b T)) {}
+}
+
+func receiveClosure[T int | float64](closure func(a, b T)) {}
+
+func ExampleOfGenericFuncWithClosureParam() {
+	// First instantiate and then call, the type in the closure parameter must be repalced with the outer type argument.
+	receiveClosure[int](func(a, b int) {})
+	receiveClosure[float64](func(a, b float64) {})
+
+	// or omit the type argument
+	receiveClosure(func(a, b int) {})
+	receiveClosure(func(a, b float64) {})
+}
+
+type number interface {
+	~int | ~float64
+}
+
+type myint int
+type myfloat64 float64
+
+func test[T number](n T) {}
+
+func ttt() {
+	test(23)
+	test(1.2)
+	test(myint(1))
+	test(myfloat64(1))
 }
