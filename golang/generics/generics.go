@@ -20,6 +20,9 @@ type Human interface {
 	*Man | *Woman
 }
 
+// handleHuman is a generic function.
+func handleHuman[V Human](human V) {}
+
 func ExampleOfTypeConstraint() {
 	// If an interface contains type constraints, it can't been used to declare
 	// an variable or a function parameter.
@@ -35,4 +38,39 @@ func ExampleOfTypeConstraint() {
 	// handleHuman(new(Transgender)) // *Transgender does not implement Human
 }
 
-func handleHuman[V Human](human V) {}
+func ExampleOfInstantiation() {
+	// Providing the type argument to the generic function, then we have a non-generic
+	// one, this process is called `instantiation`.
+	handleMan := handleHuman[*Man]
+	handleMan(new(Man))
+	// handleMan(new(Woman)) // bad
+}
+
+type Person[T *Man | *Woman] struct {
+	gender string
+	mate   T
+}
+
+type Tree[T string | int] struct {
+	left, right *Tree[T]
+	value       T
+}
+
+func ExampleOfGenericType() {
+	// When using generic types, be aware that instantiation is required.
+
+	_ = Tree[int]{
+		left:  &Tree[int]{},
+		right: nil,
+		value: 0,
+	}
+
+	// or
+
+	type stringTree = Tree[string]
+	_ = stringTree{
+		left:  nil,
+		right: nil,
+		value: "",
+	}
+}
