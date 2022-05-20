@@ -23,7 +23,11 @@ type Human interface {
 // handleHuman is a generic function.
 func handleHuman[V Human](human V) {}
 
-// Tree is a generic type.
+// Tree is a generic type, and can also be declared as:
+//   type Tree[T interface{ string | int }] struct {
+//     left, right *Tree[T]
+//     value       T
+//   }
 type Tree[T string | int] struct {
 	left, right *Tree[T]
 	value       T
@@ -81,8 +85,7 @@ func ExampleOfInstantiation() {
 }
 
 func ExampleOfTypeParameter() {
-	// Type parameter list can only be declared with outermost function or type,
-	// and can't be declared with closure or anonymous function.
+	// Type parameter list can only be declared with outermost function, and can't be declared in function type.
 
 	// error example 1:
 	//   f := func[T int | float64] (n T) {} // syntax error: function type must have no type parameters
@@ -106,18 +109,28 @@ func ExampleOfGenericFuncWithClosureParam() {
 	receiveClosure(func(a, b float64) {})
 }
 
-type number interface {
-	~int | ~float64
-}
-
 type myint int
 type myfloat64 float64
 
-func test[T number](n T) {}
+func receiveApproximation[T ~int | ~float64](n T) {}
 
-func ttt() {
-	test(23)
-	test(1.2)
-	test(myint(1))
-	test(myfloat64(1))
+func ExampleOfApproximation() {
+	// ~T means the set of all types with underlying type T
+
+	// correct
+	receiveApproximation(1)
+	receiveApproximation(0.5)
+
+	// also correct
+	receiveApproximation(myint(1))
+	receiveApproximation(myfloat64(0.5))
+}
+
+func ExampleOfGenericMethod() {
+	// Go (the latest version at the time of writing this is 1.18.2) does not support generic method.
+	//
+	//   type Utils struct {}
+	//   func (Utils) Append[E any] (slice []E, elems ...E) []E { // syntax error: method must have no type parameters
+	//     return append(slice, elems...)
+	//   }
 }
