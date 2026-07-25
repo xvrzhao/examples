@@ -3,7 +3,7 @@ package context
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"time"
@@ -26,7 +26,9 @@ func HTTPRequestWithContext(httpPort int, ctxTimeout time.Duration) {
 
 	time.Sleep(time.Second) // wait for the server to start
 
-	ctx, _ := context.WithTimeout(context.Background(), ctxTimeout) // ctx will Done after ctxTimeout
+	ctx, cancel := context.WithTimeout(context.Background(), ctxTimeout) // ctx will Done after ctxTimeout
+	defer cancel()
+
 	url := fmt.Sprintf("http://127.0.0.1:%d/slow-query", httpPort)
 	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
@@ -39,7 +41,7 @@ func HTTPRequestWithContext(httpPort int, ctxTimeout time.Duration) {
 	}
 	defer res.Body.Close()
 
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		log.Fatalf("failed to read body: %v", err)
 	}
