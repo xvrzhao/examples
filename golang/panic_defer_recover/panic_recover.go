@@ -1,7 +1,6 @@
 package panic_defer_recover
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"time"
@@ -15,8 +14,8 @@ func RunSnippet1() {
 func a() {
 	defer func() {
 		fmt.Println("This message will be displayed.")
-		if err := recover(); err != nil {
-			fmt.Printf("Rceived panic: `%v`, but program continues.\n", err)
+		if v := recover(); v != nil {
+			fmt.Printf("Rceived panic: `%v`, but program continues.\n", v)
 		}
 	}()
 	b()
@@ -34,10 +33,10 @@ func RunSnippet2() {
 
 func run() {
 	s := make([]string, 3)
-	if v, e := elementValue(s, 5); e != nil {
-		log.Printf("Error: %s", e)
+	if v, err := elementValue(s, 5); err != nil {
+		log.Printf("failed to call elementValue: %s", err.Error())
 	} else {
-		fmt.Printf("value is %v", v)
+		fmt.Printf("value is %s", v)
 	}
 }
 
@@ -45,7 +44,7 @@ func run() {
 func elementValue(slice []string, index int) (value string, err error) {
 	defer func() {
 		if e := recover(); e != nil {
-			err = errors.New(fmt.Sprintf("%s", e))
+			err = fmt.Errorf("%s", e)
 		}
 	}()
 	value = slice[index]
@@ -57,7 +56,7 @@ func elementValue(slice []string, index int) (value string, err error) {
 func ReturnedInterfaceValue() {
 	defer func() {
 		if v := recover(); v != nil {
-			if err, ok := v.(error); ok == true {
+			if err, ok := v.(error); ok {
 				fmt.Printf("error: %v\n", err) // will not print
 			} else {
 				fmt.Printf("interface: %v\n", v) // will print
@@ -91,7 +90,9 @@ func ChildGoroutinePanic() {
 
 // PanicTerminateWholeProgram demonstrates that the un-recovered panic in one goroutine
 // will terminate the whole program. Run the command:
-//   $ go test -v -run=PanicTerminateWholeProgram ./panic_defer_recover
+//
+//	$ go test -v -run=PanicTerminateWholeProgram ./panic_defer_recover
+//
 // After 3 seconds, the goroutine 1 will panic, and the main goroutine will be terminated too.
 func PanicTerminateWholeProgram() {
 	// here is main goroutine

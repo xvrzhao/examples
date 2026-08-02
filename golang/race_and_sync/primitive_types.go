@@ -8,7 +8,8 @@ import (
 
 // IntRace1 demonstrates the one of non-concurrency-safe scenarios of int value.
 // Run the following command under the project root directory to test race:
-//   $ go test -race -run=IntRace1 -v -count=1 ./race_and_sync
+//
+//	$ go test -race -run=IntRace1 -v -count=1 ./golang/race_and_sync
 func IntRace1() {
 	var i int
 	done := make(chan bool)
@@ -23,7 +24,8 @@ func IntRace1() {
 
 // IntRace2 demonstrates the one of non-concurrency-safe scenarios of int value.
 // Run the following command under the project root directory to test race:
-//   $ go test -race -run=IntRace2 -v -count=1 ./race_and_sync
+//
+//	$ go test -race -run=IntRace2 -v -count=1 ./golang/race_and_sync
 func IntRace2() {
 	var num int
 	wg := new(sync.WaitGroup)
@@ -40,7 +42,8 @@ func IntRace2() {
 
 // IntAtomic demonstrates the concurrency-safe version of IntRace1.
 // Run the following command under the project root directory to test race:
-//   $ go test -race -run=IntAtomic -v -count=1 ./race_and_sync
+//
+//	$ go test -race -run=IntAtomic -v -count=1 ./golang/race_and_sync
 func IntAtomic() {
 	var i int64
 	done := make(chan bool)
@@ -55,7 +58,8 @@ func IntAtomic() {
 
 // StringRace demonstrates data races between two goroutines.
 // Run the following command under the project root directory to test race:
-//   $ go test -race -run=StringRace -v -count=1 ./race_and_sync
+//
+//	$ go test -race -run=StringRace -v -count=1 ./golang/race_and_sync
 func StringRace() {
 	var s string
 	done := make(chan bool)
@@ -72,7 +76,8 @@ func StringRace() {
 
 // BoolRace demonstrates data races between two goroutines.
 // Run the following command under the project root directory to test race:
-//   $ go test -race -run=BoolRace -v -count=1 ./race_and_sync
+//
+//	$ go test -race -run=BoolRace -v -count=1 ./golang/race_and_sync
 func BoolRace() {
 	var s bool
 	done := make(chan bool)

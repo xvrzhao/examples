@@ -19,15 +19,17 @@ func ExampleOfUnwrap() {
 	fmt.Println(err3) // err3: err2: err1
 
 	_err2 := errors.Unwrap(err3)
-	fmt.Println(_err2, err2 == err2) // err2: err1  true
+	fmt.Println(_err2, _err2 == err2) // err2: err1  true
 
 	_err1 := errors.Unwrap(_err2)
 	fmt.Println(_err1, _err1 == err1) // err1  true
+
+	fmt.Println(errors.Unwrap(_err1) == nil) // true
 }
 
 // ExampleOfIs 演示了 errors.Is(err, target error) 的用法。
-//   1. err 或 组成 err 的链中，只要有一个等于 target，则返回 true。
-//   2. 若 err 底层类型包含 Is(target error) 方法，则优先使用该方法的返回结果。
+//  1. err 或 组成 err 的链中，只要有一个等于 target，则返回 true。
+//  2. 若 err 底层类型包含 Is(target error) 方法，则优先使用该方法的返回结果。
 func ExampleOfIs() {
 	fmt.Println(
 		// true

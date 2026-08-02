@@ -6,7 +6,7 @@ func RunMapPanic() {
 	// m := make(map[string]int) // declared and initialized
 	var m map[string]int  // declared but not initialized
 	fmt.Println(m == nil) // true
-	m["xvrzhao"] = 23     // panic: assignment to entry in nil map
+	// m["xvrzhao"] = 23     // panic: assignment to entry in nil map
 }
 
 func RunMapRefer() {

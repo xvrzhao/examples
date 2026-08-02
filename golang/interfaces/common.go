@@ -45,4 +45,4 @@ func newHuman(name string) Human {
 	return &Man{Name: name}
 }
 
-func use(...interface{}) {}
+func use(...any) {}

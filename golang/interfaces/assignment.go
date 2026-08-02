@@ -27,7 +27,7 @@ func RunAssignInterface() {
 	speaker = new(Man)
 
 	var speakWalker SpeakWalker
-	//speakWalker = speaker // invalid, compiler error, speaker can not be assigned to speakWalker because speaker does not implement speakWalker, even though the underlying struct *Man implements that.
+	// speakWalker = speaker // invalid, compiler error, speaker can not be assigned to speakWalker because speaker does not implement speakWalker, even though the underlying struct *Man implements that.
 
 	speakWalker = new(Man)
 	speaker = speakWalker // valid.

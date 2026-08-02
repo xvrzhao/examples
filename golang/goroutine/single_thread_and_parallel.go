@@ -11,9 +11,10 @@ const (
 // SingleThread calculates the sum in a single thread.
 //
 // Run the benchmark to compare with the Parallel function:
-//   $ go test -bench=. -benchmem ./goroutine
-//   BenchmarkSingleThread-8             1486            691141 ns/op               0 B/op          0 allocs/op
-//   BenchmarkParallel-8                 4402            271651 ns/op             320 B/op          1 allocs/op
+//
+//	$ go test -bench=. -benchmem ./golang/goroutine
+//	BenchmarkSingleThread-8             1486            691141 ns/op               0 B/op          0 allocs/op
+//	BenchmarkParallel-8                 4402            271651 ns/op             320 B/op          1 allocs/op
 func SingleThread() int {
 	var sum int
 	for _, v := range data {
@@ -39,6 +40,7 @@ func Parallel() int {
 	for i := 0; i < countOfParallel; i++ {
 		sum += <-ch
 	}
+	close(ch)
 	return sum
 }
 

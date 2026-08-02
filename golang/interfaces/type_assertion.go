@@ -34,7 +34,7 @@ func RunTypeAssertionExample1() {
 		fmt.Println("human is not *Man")
 	}
 
-	// just to judge
+	// just for judge
 	if _, ok = human.(*Girl); ok {
 		// ...
 	}

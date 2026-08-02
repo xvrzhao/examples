@@ -17,3 +17,11 @@ func TestPanicTerminateWholeProgram(t *testing.T) {
 func TestRecoverMustInDefer(t *testing.T) {
 	RecoverMustInDefer()
 }
+
+func TestRunSnippet1(t *testing.T) {
+	RunSnippet1()
+}
+
+func TestRunSnippet2(t *testing.T) {
+	RunSnippet2()
+}
