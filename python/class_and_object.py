@@ -5,7 +5,7 @@ Python 中类与实例的关系
 class Person:
 
     # 直接在类中声明的属性为类属性
-    name: str
+    name: str = "John"
     age: int = 30
     job: str = "saxophonist"
 
@@ -27,13 +27,12 @@ class Person:
 if __name__ == "__main__":
 
     # 结论 1: 类属性和对象属性互相隔离、互不干扰，即使同名也没关系
-    Person.name = "John"
     person = Person("Coltrane", 40)
     print("class:", Person.name, Person.age) # class: John 30
     print("object:", person.name, person.age) # object: Coltrane 40
 
     # 结论 2: 实例可以直接通过自身访问到类属性、类方法
-    print("class property", person.job) # class property job: saxophone
+    print("class property:", person.job) # class property: saxophonist
     Person.grow()
     person.grow()
     print(Person.age, person.age) # 32, 40
