@@ -122,5 +122,5 @@ def iterable_and_iterator():
 
 
 if __name__ == "__main__":
-    # list_is_iterable()
+    list_is_iterable()
     iterable_and_iterator()
