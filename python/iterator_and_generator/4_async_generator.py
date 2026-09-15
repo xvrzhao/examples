@@ -110,7 +110,7 @@ async def yield_from_a_async_iterable():
         for i in outer2():
             pass
     except Exception as e:
-        print("catched exception:", e)
+        print("caught exception:", e)
 
 
     async def outer3():

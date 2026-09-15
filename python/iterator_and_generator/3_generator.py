@@ -87,7 +87,7 @@ def usage_of_yield_from():
     """yield from 关键字的用法"""
 
     def outer():
-        yield from count(5) # 将一个 generator (具体来说是 iterable) 的值透传出来。等价于：for x from count(5): yield x
+        yield from count(5) # 将一个 generator (具体来说是 iterable) 的值透传出来。等价于：for x in count(5): yield x
         yield 5
         yield 6
 

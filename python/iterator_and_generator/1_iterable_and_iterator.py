@@ -89,7 +89,7 @@ def iterable_and_iterator():
 
     cd = CountDown(5)
     print(isinstance(cd, Iterable)) # True
-    print(isinstance(cd, Iterator)) # Fasle
+    print(isinstance(cd, Iterator)) # False
 
     # 输出: 4 3 2 1 0
     for i in cd: 

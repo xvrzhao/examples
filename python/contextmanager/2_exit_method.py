@@ -16,11 +16,10 @@ class ExceptionSuppress:
         return self
 
     def __exit__(self, exc_type, exc, tb):
-        if exc_type in self.exc_types:
+        if exc_type is not None and issubclass(exc_type, self.exc_types):
             print(f"WARNING: exception suppressed: type: {exc_type}, value: {exc}, traceback: {tb}")
             return True
-        else:
-            return False
+        return False
 
 if __name__ == "__main__":
 
@@ -49,7 +48,7 @@ if __name__ == "__main__":
         print("after error, won't be executed.")
 
     except Exception as e:
-        print(f"catched exception: {e}")
+        print(f"caught exception: {e}")
 
 
     print("-" * 20)
