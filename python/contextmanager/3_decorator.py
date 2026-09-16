@@ -42,9 +42,11 @@ if __name__ == "__main__":
     #   经过 contextmanager 装饰过的 Generator 函数返回的是一个 ContextManager 实现！
     #   这和 “实现了 ContextManager 协议的 class” 的实例化过程是一个意思。
     #   两者在这一步都只是实例化的过程，函数内部逻辑并不会被执行！
+    #   with 后面跟的是一个 ContextManager 实例
     print(isinstance(ctx, ContextManager)) # True
     print(hasattr(ctx, "__enter__")) # True
     print(hasattr(ctx, "__exit__"))  # True
+    print("-"*20)
 
     """
     猜想内部大致原理：
@@ -54,3 +56,16 @@ if __name__ == "__main__":
     
     with open_file("./hello.txt", os.O_CREAT|os.O_TRUNC|os.O_RDWR) as file:
         file.write("hello, world")
+
+    print("-"*20)
+
+    file_ctx = open_file("./hello.txt", os.O_CREAT|os.O_TRUNC|os.O_RDWR)
+    with file_ctx as file:
+        print("example 1")
+
+    print("-"*20)
+
+    # 再次执行会失败：@contextmanager 返回的 ContextManager 实例内部的 generator 执行 (next) 到头不能重来
+    # 这和第一节 (./1_protocol.py) 中的使用类实现的方式不同，那边可以重复执行
+    with file_ctx as file:
+        print("example 2")
