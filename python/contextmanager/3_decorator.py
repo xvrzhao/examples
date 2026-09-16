@@ -16,7 +16,7 @@ def open_file(path, flags):
         def write(self, content: str):
             os.write(self.fd, content.encode("utf-8"))
         def read(self, length: int):
-            return os.read(self.fd, length)
+            return os.read(self.fd, length).decode("utf-8")
         def close(self):
             os.close(self.fd)
 
