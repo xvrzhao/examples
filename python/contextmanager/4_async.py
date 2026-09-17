@@ -85,6 +85,28 @@ async def main():
     except Exception as e:
         print("caught error:", e)
 
+    print("-" * 20)
+
+    # with 后可以跟多个上下文管理器
+    async with (
+        my_file("./a.txt", os.O_CREAT|os.O_WRONLY) as a_fd,
+        my_file("./b.txt", os.O_CREAT|os.O_WRONLY) as b_fd,
+    ):
+        print("user code")
+        await asyncio.to_thread(os.write, a_fd, b"aaa")
+        await asyncio.to_thread(os.write, b_fd, b"bbb")
+
+    """
+    以上代码输出：
+        file opened, fd: 6
+        file opened, fd: 7
+        user code
+        file closed, fd: 7
+        file closed, fd: 6
+
+    可以看到，多个上下文时，遵从先进后出的原则
+    """
+
 
 if __name__ == "__main__":
     asyncio.run(main())
