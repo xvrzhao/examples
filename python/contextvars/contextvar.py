@@ -35,7 +35,7 @@ def core_apis():
     print(val) # print: 0
 
     # 2. reset
-    token = bar_var.set(1) # return previous state which is not set
+    token = bar_var.set(1) # 返回一个 Token 对象，记录设置前的状态（此处为未设置），供 reset 恢复使用
     print(bar_var.get()) # print: 1
     bar_var.reset(token)
     # bar_var.get() # raise LookupError, as previous state is not set
@@ -58,7 +58,7 @@ async def context_isolation_between_tasks():
         2. 代码里并发的数量取决于正在运行的 Task 的数量，Task 相当于逻辑并发的入口。
         3. 事件循环负责在 Tasks 之间切换交替执行，遇到 await 则让出当前 Task 的控制权，转去执行其他 Task。
         4. 可以把 Task 理解为异步世界里的线程，Coroutine 只是线程中的一个函数。
-        5. 同一个 Task 中，即使 coroutine 存在嵌套，他们之间也都是共享同一个 ContextVar 上下文，改动可彼此看见。
+        5. 同一个 Task 中，即使 coroutine 存在嵌套，它们之间也都是共享同一个 ContextVar 上下文，改动可彼此看见。
 
     该函数输出：
         worker a set: John
@@ -84,7 +84,7 @@ async def context_isolation_between_tasks():
 
 async def context_sharing_within_one_task():
     """
-    同一个 Task 中，即使 coroutine 存在嵌套，他们之间也都是共享同一个 ContextVar 上下文，改动可彼此看见。
+    同一个 Task 中，即使 coroutine 存在嵌套，它们之间也都是共享同一个 ContextVar 上下文，改动可彼此看见。
     """
     async def task():
         async def inner():
@@ -131,9 +131,9 @@ def copy_context_manually():
     手动拷贝上下文，上一个例子的等效操作，实际上在创建新的 asyncio.Task 时就是执行的类似操作
 
     输出：
-        child read: value outter set
+        child read: value outer set
         child set: value child set
-        outter read: value outter set
+        outer read: value outer set
     """
 
     def child():
@@ -144,10 +144,10 @@ def copy_context_manually():
         user_var.set("value child set")
         print("child set:", user_var.get())
 
-    user_var.set("value outter set")
+    user_var.set("value outer set")
     ctx = copy_context()
     ctx.run(child)
-    print("outter read:", user_var.get())
+    print("outer read:", user_var.get())
 
 
 async def main():
